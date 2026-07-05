@@ -1,3 +1,4 @@
 <Solution>
-  <Project Path="Calculadora.Domain/Calculator.Domain.csproj" Id="c3a79fd8-b08d-4621-b36c-b2c07489efbb" />
+  <Project Path="Calculator.Domain/Calculator.Domain.csproj" Id="c3a79fd8-b08d-4621-b36c-b2c07489efbb" />
+  <Project Path="Calculator.WinForms/Calculator.WinForms.csproj" Id="42025a6d-01aa-4805-b0c8-95bfc7874df4" />
 </Solution>
