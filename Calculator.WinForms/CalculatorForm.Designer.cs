@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             Calculator = new ReaLTaiizor.Forms.SpaceForm();
+            txtResult = new ReaLTaiizor.Controls.CrownTextBox();
             dungeonHeaderLabel6 = new ReaLTaiizor.Controls.DungeonHeaderLabel();
             dungeonHeaderLabel5 = new ReaLTaiizor.Controls.DungeonHeaderLabel();
             dungeonHeaderLabel4 = new ReaLTaiizor.Controls.DungeonHeaderLabel();
@@ -60,7 +61,6 @@
             btnClearEntry = new ReaLTaiizor.Controls.SpaceButton();
             BtnPercent = new ReaLTaiizor.Controls.SpaceButton();
             btnClose = new ReaLTaiizor.Controls.SpaceClose();
-            crownTextBox1 = new ReaLTaiizor.Controls.CrownTextBox();
             Calculator.SuspendLayout();
             SuspendLayout();
             // 
@@ -68,7 +68,7 @@
             // 
             Calculator.BackColor = Color.FromArgb(42, 42, 42);
             Calculator.BorderStyle = FormBorderStyle.None;
-            Calculator.Controls.Add(crownTextBox1);
+            Calculator.Controls.Add(txtResult);
             Calculator.Controls.Add(dungeonHeaderLabel6);
             Calculator.Controls.Add(dungeonHeaderLabel5);
             Calculator.Controls.Add(dungeonHeaderLabel4);
@@ -118,7 +118,21 @@
             Calculator.Text = "Calculator";
             Calculator.TransparencyKey = Color.Purple;
             Calculator.Transparent = false;
-            Calculator.Click += Calculator_Click;
+            // 
+            // txtResult
+            // 
+            txtResult.BackColor = Color.FromArgb(42, 42, 42);
+            txtResult.BorderStyle = BorderStyle.None;
+            txtResult.Font = new Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtResult.ForeColor = Color.FromArgb(220, 220, 220);
+            txtResult.Location = new Point(3, 30);
+            txtResult.Multiline = true;
+            txtResult.Name = "txtResult";
+            txtResult.RightToLeft = RightToLeft.Yes;
+            txtResult.Size = new Size(319, 66);
+            txtResult.TabIndex = 0;
+            txtResult.TabStop = false;
+            txtResult.Text = "0";
             // 
             // dungeonHeaderLabel6
             // 
@@ -550,21 +564,6 @@
             btnClose.Text = "x";
             btnClose.Transparent = false;
             // 
-            // crownTextBox1
-            // 
-            crownTextBox1.BackColor = Color.FromArgb(42, 42, 42);
-            crownTextBox1.BorderStyle = BorderStyle.None;
-            crownTextBox1.Font = new Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            crownTextBox1.ForeColor = Color.FromArgb(220, 220, 220);
-            crownTextBox1.Location = new Point(3, 30);
-            crownTextBox1.Multiline = true;
-            crownTextBox1.Name = "crownTextBox1";
-            crownTextBox1.RightToLeft = RightToLeft.Yes;
-            crownTextBox1.Size = new Size(319, 66);
-            crownTextBox1.TabIndex = 0;
-            crownTextBox1.TabStop = false;
-            crownTextBox1.Text = "123";
-            // 
             // CalculatorForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -620,6 +619,6 @@
         private ReaLTaiizor.Controls.DungeonHeaderLabel dungeonHeaderLabel2;
         private ReaLTaiizor.Controls.DungeonHeaderLabel dungeonHeaderLabel1;
         private ReaLTaiizor.Controls.DungeonHeaderLabel dungeonHeaderLabel6;
-        private ReaLTaiizor.Controls.CrownTextBox crownTextBox1;
+        private ReaLTaiizor.Controls.CrownTextBox txtResult;
     }
 }
