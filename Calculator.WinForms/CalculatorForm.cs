@@ -19,9 +19,9 @@ namespace Calculator.WinForms
 
             InitializeKeyMapping();
             SetupNumberButtonClicks();
-            btnComma.Click += (s, e) => HandleCommaInput();
-            btnClear.Click += (s, e) => HandleClearInput();
-            btnBackSpace.Click += (s, e) => HandleBackspaceInput();
+            btnComma.MouseDown += (s, e) => HandleCommaInput();
+            btnClear.MouseDown += (s, e) => HandleClearInput();
+            btnBackSpace.MouseDown += (s, e) => HandleBackspaceInput();
         }
 
         private void InitializeKeyMapping()
@@ -53,16 +53,16 @@ namespace Calculator.WinForms
 
         private void SetupNumberButtonClicks()
         {
-            btnZero.Click += (s, e) => HandleDigitInput("0");
-            btnOne.Click += (s, e) => HandleDigitInput("1");
-            btnTwo.Click += (s, e) => HandleDigitInput("2");
-            btnThree.Click += (s, e) => HandleDigitInput("3");
-            btnFour.Click += (s, e) => HandleDigitInput("4");
-            btnFive.Click += (s, e) => HandleDigitInput("5");
-            btnSix.Click += (s, e) => HandleDigitInput("6");
-            btnSeven.Click += (s, e) => HandleDigitInput("7");
-            btnEight.Click += (s, e) => HandleDigitInput("8");
-            btnNine.Click += (s, e) => HandleDigitInput("9");
+            btnZero.MouseDown += (s, e) => HandleDigitInput("0");
+            btnOne.MouseDown += (s, e) => HandleDigitInput("1");
+            btnTwo.MouseDown += (s, e) => HandleDigitInput("2");
+            btnThree.MouseDown += (s, e) => HandleDigitInput("3");
+            btnFour.MouseDown += (s, e) => HandleDigitInput("4");
+            btnFive.MouseDown += (s, e) => HandleDigitInput("5");
+            btnSix.MouseDown += (s, e) => HandleDigitInput("6");
+            btnSeven.MouseDown += (s, e) => HandleDigitInput("7");
+            btnEight.MouseDown += (s, e) => HandleDigitInput("8");
+            btnNine.MouseDown += (s, e) => HandleDigitInput("9");
         }
 
         private void HandleDigitInput(string digit)

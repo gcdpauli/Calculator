@@ -121,21 +121,23 @@
             // 
             // txtResult
             // 
-            txtResult.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            txtResult.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             txtResult.BackColor = Color.FromArgb(42, 42, 42);
             txtResult.BorderStyle = BorderStyle.None;
             txtResult.Font = new Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point, 0);
             txtResult.ForeColor = Color.Gray;
             txtResult.Location = new Point(1, 30);
             txtResult.Margin = new Padding(0);
-            txtResult.MaxLength = 16;
-            txtResult.Multiline = true;
+            txtResult.MaxLength = 15;
+            txtResult.Multiline = false;
             txtResult.Name = "txtResult";
-            txtResult.RightToLeft = RightToLeft.Yes;
-            txtResult.Size = new Size(323, 76);
+            txtResult.RightToLeft = RightToLeft.No;
+            txtResult.ScrollBars = ScrollBars.Horizontal;
+            txtResult.Size = new Size(323, 60);
             txtResult.TabIndex = 0;
             txtResult.TabStop = false;
             txtResult.Text = "0";
+            txtResult.TextAlign = HorizontalAlignment.Right;
             txtResult.WordWrap = false;
             // 
             // dungeonHeaderLabel6
