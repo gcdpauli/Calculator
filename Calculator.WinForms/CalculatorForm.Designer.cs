@@ -29,13 +29,15 @@
         private void InitializeComponent()
         {
             Calculator = new ReaLTaiizor.Forms.SpaceForm();
+            txtLeftNumber = new ReaLTaiizor.Controls.CrownTextBox();
+            lblOperator = new Label();
             txtResult = new ReaLTaiizor.Controls.CrownTextBox();
-            dungeonHeaderLabel6 = new ReaLTaiizor.Controls.DungeonHeaderLabel();
-            dungeonHeaderLabel5 = new ReaLTaiizor.Controls.DungeonHeaderLabel();
-            dungeonHeaderLabel4 = new ReaLTaiizor.Controls.DungeonHeaderLabel();
-            dungeonHeaderLabel3 = new ReaLTaiizor.Controls.DungeonHeaderLabel();
-            dungeonHeaderLabel2 = new ReaLTaiizor.Controls.DungeonHeaderLabel();
-            dungeonHeaderLabel1 = new ReaLTaiizor.Controls.DungeonHeaderLabel();
+            lblMemoryView = new ReaLTaiizor.Controls.DungeonHeaderLabel();
+            lblMemoryStore = new ReaLTaiizor.Controls.DungeonHeaderLabel();
+            lblMemorySubtract = new ReaLTaiizor.Controls.DungeonHeaderLabel();
+            lblMemoryAdd = new ReaLTaiizor.Controls.DungeonHeaderLabel();
+            lblMemoryRecall = new ReaLTaiizor.Controls.DungeonHeaderLabel();
+            lblMemoryClear = new ReaLTaiizor.Controls.DungeonHeaderLabel();
             btnEqual = new ReaLTaiizor.Controls.SpaceButton();
             btnComma = new ReaLTaiizor.Controls.SpaceButton();
             btnZero = new ReaLTaiizor.Controls.SpaceButton();
@@ -68,13 +70,15 @@
             // 
             Calculator.BackColor = Color.FromArgb(42, 42, 42);
             Calculator.BorderStyle = FormBorderStyle.None;
+            Calculator.Controls.Add(txtLeftNumber);
+            Calculator.Controls.Add(lblOperator);
             Calculator.Controls.Add(txtResult);
-            Calculator.Controls.Add(dungeonHeaderLabel6);
-            Calculator.Controls.Add(dungeonHeaderLabel5);
-            Calculator.Controls.Add(dungeonHeaderLabel4);
-            Calculator.Controls.Add(dungeonHeaderLabel3);
-            Calculator.Controls.Add(dungeonHeaderLabel2);
-            Calculator.Controls.Add(dungeonHeaderLabel1);
+            Calculator.Controls.Add(lblMemoryView);
+            Calculator.Controls.Add(lblMemoryStore);
+            Calculator.Controls.Add(lblMemorySubtract);
+            Calculator.Controls.Add(lblMemoryAdd);
+            Calculator.Controls.Add(lblMemoryRecall);
+            Calculator.Controls.Add(lblMemoryClear);
             Calculator.Controls.Add(btnEqual);
             Calculator.Controls.Add(btnComma);
             Calculator.Controls.Add(btnZero);
@@ -119,6 +123,35 @@
             Calculator.TransparencyKey = Color.Purple;
             Calculator.Transparent = false;
             // 
+            // txtLeftNumber
+            // 
+            txtLeftNumber.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtLeftNumber.BackColor = Color.FromArgb(42, 42, 42);
+            txtLeftNumber.BorderStyle = BorderStyle.None;
+            txtLeftNumber.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtLeftNumber.ForeColor = Color.Gray;
+            txtLeftNumber.Location = new Point(10, 98);
+            txtLeftNumber.Margin = new Padding(0);
+            txtLeftNumber.MaxLength = 15;
+            txtLeftNumber.Name = "txtLeftNumber";
+            txtLeftNumber.RightToLeft = RightToLeft.No;
+            txtLeftNumber.ScrollBars = ScrollBars.Horizontal;
+            txtLeftNumber.Size = new Size(290, 32);
+            txtLeftNumber.TabIndex = 31;
+            txtLeftNumber.TabStop = false;
+            txtLeftNumber.TextAlign = HorizontalAlignment.Right;
+            txtLeftNumber.WordWrap = false;
+            // 
+            // lblOperator
+            // 
+            lblOperator.AutoSize = true;
+            lblOperator.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblOperator.ForeColor = Color.Gray;
+            lblOperator.Location = new Point(295, 94);
+            lblOperator.Name = "lblOperator";
+            lblOperator.Size = new Size(0, 37);
+            lblOperator.TabIndex = 0;
+            // 
             // txtResult
             // 
             txtResult.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
@@ -129,94 +162,93 @@
             txtResult.Location = new Point(1, 30);
             txtResult.Margin = new Padding(0);
             txtResult.MaxLength = 15;
-            txtResult.Multiline = false;
             txtResult.Name = "txtResult";
             txtResult.RightToLeft = RightToLeft.No;
             txtResult.ScrollBars = ScrollBars.Horizontal;
-            txtResult.Size = new Size(323, 60);
+            txtResult.Size = new Size(323, 64);
             txtResult.TabIndex = 0;
             txtResult.TabStop = false;
             txtResult.Text = "0";
             txtResult.TextAlign = HorizontalAlignment.Right;
             txtResult.WordWrap = false;
             // 
-            // dungeonHeaderLabel6
+            // lblMemoryView
             // 
-            dungeonHeaderLabel6.AutoSize = true;
-            dungeonHeaderLabel6.BackColor = Color.Transparent;
-            dungeonHeaderLabel6.Cursor = Cursors.Hand;
-            dungeonHeaderLabel6.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            dungeonHeaderLabel6.ForeColor = Color.FromArgb(76, 76, 77);
-            dungeonHeaderLabel6.Location = new Point(285, 138);
-            dungeonHeaderLabel6.Name = "dungeonHeaderLabel6";
-            dungeonHeaderLabel6.Size = new Size(31, 20);
-            dungeonHeaderLabel6.TabIndex = 30;
-            dungeonHeaderLabel6.Text = "Mv";
+            lblMemoryView.AutoSize = true;
+            lblMemoryView.BackColor = Color.Transparent;
+            lblMemoryView.Cursor = Cursors.Hand;
+            lblMemoryView.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            lblMemoryView.ForeColor = Color.FromArgb(76, 76, 77);
+            lblMemoryView.Location = new Point(285, 138);
+            lblMemoryView.Name = "lblMemoryView";
+            lblMemoryView.Size = new Size(31, 20);
+            lblMemoryView.TabIndex = 30;
+            lblMemoryView.Text = "Mv";
             // 
-            // dungeonHeaderLabel5
+            // lblMemoryStore
             // 
-            dungeonHeaderLabel5.AutoSize = true;
-            dungeonHeaderLabel5.BackColor = Color.Transparent;
-            dungeonHeaderLabel5.Cursor = Cursors.Hand;
-            dungeonHeaderLabel5.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            dungeonHeaderLabel5.ForeColor = Color.FromArgb(76, 76, 77);
-            dungeonHeaderLabel5.Location = new Point(230, 138);
-            dungeonHeaderLabel5.Name = "dungeonHeaderLabel5";
-            dungeonHeaderLabel5.Size = new Size(31, 20);
-            dungeonHeaderLabel5.TabIndex = 29;
-            dungeonHeaderLabel5.Text = "MS";
+            lblMemoryStore.AutoSize = true;
+            lblMemoryStore.BackColor = Color.Transparent;
+            lblMemoryStore.Cursor = Cursors.Hand;
+            lblMemoryStore.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            lblMemoryStore.ForeColor = Color.FromArgb(76, 76, 77);
+            lblMemoryStore.Location = new Point(230, 138);
+            lblMemoryStore.Name = "lblMemoryStore";
+            lblMemoryStore.Size = new Size(31, 20);
+            lblMemoryStore.TabIndex = 29;
+            lblMemoryStore.Text = "MS";
             // 
-            // dungeonHeaderLabel4
+            // lblMemorySubtract
             // 
-            dungeonHeaderLabel4.AutoSize = true;
-            dungeonHeaderLabel4.BackColor = Color.Transparent;
-            dungeonHeaderLabel4.Cursor = Cursors.Hand;
-            dungeonHeaderLabel4.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            dungeonHeaderLabel4.ForeColor = Color.FromArgb(76, 76, 77);
-            dungeonHeaderLabel4.Location = new Point(175, 138);
-            dungeonHeaderLabel4.Name = "dungeonHeaderLabel4";
-            dungeonHeaderLabel4.Size = new Size(29, 20);
-            dungeonHeaderLabel4.TabIndex = 28;
-            dungeonHeaderLabel4.Text = "M-";
+            lblMemorySubtract.AutoSize = true;
+            lblMemorySubtract.BackColor = Color.Transparent;
+            lblMemorySubtract.Cursor = Cursors.Hand;
+            lblMemorySubtract.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            lblMemorySubtract.ForeColor = Color.FromArgb(76, 76, 77);
+            lblMemorySubtract.Location = new Point(175, 138);
+            lblMemorySubtract.Name = "lblMemorySubtract";
+            lblMemorySubtract.Size = new Size(29, 20);
+            lblMemorySubtract.TabIndex = 28;
+            lblMemorySubtract.Text = "M-";
             // 
-            // dungeonHeaderLabel3
+            // lblMemoryAdd
             // 
-            dungeonHeaderLabel3.AutoSize = true;
-            dungeonHeaderLabel3.BackColor = Color.Transparent;
-            dungeonHeaderLabel3.Cursor = Cursors.Hand;
-            dungeonHeaderLabel3.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            dungeonHeaderLabel3.ForeColor = Color.FromArgb(76, 76, 77);
-            dungeonHeaderLabel3.Location = new Point(120, 138);
-            dungeonHeaderLabel3.Name = "dungeonHeaderLabel3";
-            dungeonHeaderLabel3.Size = new Size(34, 20);
-            dungeonHeaderLabel3.TabIndex = 27;
-            dungeonHeaderLabel3.Text = "M+";
+            lblMemoryAdd.AutoSize = true;
+            lblMemoryAdd.BackColor = Color.Transparent;
+            lblMemoryAdd.Cursor = Cursors.Hand;
+            lblMemoryAdd.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            lblMemoryAdd.ForeColor = Color.FromArgb(76, 76, 77);
+            lblMemoryAdd.Location = new Point(120, 138);
+            lblMemoryAdd.Name = "lblMemoryAdd";
+            lblMemoryAdd.Size = new Size(34, 20);
+            lblMemoryAdd.TabIndex = 27;
+            lblMemoryAdd.Text = "M+";
             // 
-            // dungeonHeaderLabel2
+            // lblMemoryRecall
             // 
-            dungeonHeaderLabel2.AutoSize = true;
-            dungeonHeaderLabel2.BackColor = Color.Transparent;
-            dungeonHeaderLabel2.Cursor = Cursors.Hand;
-            dungeonHeaderLabel2.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            dungeonHeaderLabel2.ForeColor = Color.FromArgb(76, 76, 77);
-            dungeonHeaderLabel2.Location = new Point(65, 138);
-            dungeonHeaderLabel2.Name = "dungeonHeaderLabel2";
-            dungeonHeaderLabel2.Size = new Size(33, 20);
-            dungeonHeaderLabel2.TabIndex = 26;
-            dungeonHeaderLabel2.Text = "MR";
+            lblMemoryRecall.AutoSize = true;
+            lblMemoryRecall.BackColor = Color.Transparent;
+            lblMemoryRecall.Cursor = Cursors.Hand;
+            lblMemoryRecall.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            lblMemoryRecall.ForeColor = Color.FromArgb(76, 76, 77);
+            lblMemoryRecall.Location = new Point(65, 138);
+            lblMemoryRecall.Name = "lblMemoryRecall";
+            lblMemoryRecall.Size = new Size(33, 20);
+            lblMemoryRecall.TabIndex = 26;
+            lblMemoryRecall.Text = "MR";
             // 
-            // dungeonHeaderLabel1
+            // lblMemoryClear
             // 
-            dungeonHeaderLabel1.AutoSize = true;
-            dungeonHeaderLabel1.BackColor = Color.Transparent;
-            dungeonHeaderLabel1.Cursor = Cursors.Hand;
-            dungeonHeaderLabel1.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            dungeonHeaderLabel1.ForeColor = Color.FromArgb(76, 76, 77);
-            dungeonHeaderLabel1.Location = new Point(10, 138);
-            dungeonHeaderLabel1.Name = "dungeonHeaderLabel1";
-            dungeonHeaderLabel1.Size = new Size(32, 20);
-            dungeonHeaderLabel1.TabIndex = 25;
-            dungeonHeaderLabel1.Text = "MC";
+            lblMemoryClear.AutoSize = true;
+            lblMemoryClear.BackColor = Color.Transparent;
+            lblMemoryClear.Cursor = Cursors.Hand;
+            lblMemoryClear.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            lblMemoryClear.ForeColor = Color.FromArgb(76, 76, 77);
+            lblMemoryClear.Location = new Point(10, 138);
+            lblMemoryClear.Name = "lblMemoryClear";
+            lblMemoryClear.Size = new Size(32, 20);
+            lblMemoryClear.TabIndex = 25;
+            lblMemoryClear.Text = "MC";
             // 
             // btnEqual
             // 
@@ -619,12 +651,14 @@
         private ReaLTaiizor.Controls.SpaceButton btnBackSpace;
         private ReaLTaiizor.Controls.SpaceButton btnClear;
         private ReaLTaiizor.Controls.SpaceButton btnClearEntry;
-        private ReaLTaiizor.Controls.DungeonHeaderLabel dungeonHeaderLabel5;
-        private ReaLTaiizor.Controls.DungeonHeaderLabel dungeonHeaderLabel4;
-        private ReaLTaiizor.Controls.DungeonHeaderLabel dungeonHeaderLabel3;
-        private ReaLTaiizor.Controls.DungeonHeaderLabel dungeonHeaderLabel2;
-        private ReaLTaiizor.Controls.DungeonHeaderLabel dungeonHeaderLabel1;
-        private ReaLTaiizor.Controls.DungeonHeaderLabel dungeonHeaderLabel6;
+        private ReaLTaiizor.Controls.DungeonHeaderLabel lblMemoryStore;
+        private ReaLTaiizor.Controls.DungeonHeaderLabel lblMemorySubtract;
+        private ReaLTaiizor.Controls.DungeonHeaderLabel lblMemoryAdd;
+        private ReaLTaiizor.Controls.DungeonHeaderLabel lblMemoryRecall;
+        private ReaLTaiizor.Controls.DungeonHeaderLabel lblMemoryClear;
+        private ReaLTaiizor.Controls.DungeonHeaderLabel lblMemoryView;
         private ReaLTaiizor.Controls.CrownTextBox txtResult;
+        private Label lblOperator;
+        private ReaLTaiizor.Controls.CrownTextBox txtLeftNumber;
     }
 }

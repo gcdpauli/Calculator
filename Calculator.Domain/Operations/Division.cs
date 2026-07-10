@@ -6,7 +6,7 @@ namespace Calculator.Domain.Operations
     {
         public decimal Execute(decimal left, decimal right)
         {
-            if (right == 0) throw new DivideByZeroException("Cannot divide by zero.");
+            if (right == 0) throw new DivideByZeroException("Não é possível dividir por zero.");
             
             return left / right;
         }

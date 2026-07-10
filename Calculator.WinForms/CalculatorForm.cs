@@ -1,5 +1,6 @@
+using Calculator.Domain.Models;
+using Calculator.Domain.Services;
 using System.Globalization;
-using System.Text.RegularExpressions;
 
 namespace Calculator.WinForms
 {
@@ -11,17 +12,27 @@ namespace Calculator.WinForms
         private const int MaxDigitsBeforeResize = 10;
         private const int MaxCharacters = 16;
 
+        private CalculationState _calculationState;
+        private readonly CalculationService _calculationService;
+        private string _currentOperator = string.Empty;
+
         public CalculatorForm()
         {
             InitializeComponent();
             KeyPreview = true;
             KeyDown += CalculatorForm_KeyDown;
 
+            _calculationState = new CalculationState();
+            _calculationService = new CalculationService();
+
             InitializeKeyMapping();
             SetupNumberButtonClicks();
+            SetupOperatorButtons();
+            SetupUnaryOperatorButtons();
             btnComma.MouseDown += (s, e) => HandleCommaInput();
             btnClear.MouseDown += (s, e) => HandleClearInput();
             btnBackSpace.MouseDown += (s, e) => HandleBackspaceInput();
+            btnEqual.MouseDown += (s, e) => HandleEqualClick();
         }
 
         private void InitializeKeyMapping()
@@ -49,6 +60,11 @@ namespace Calculator.WinForms
             _keyActions[Keys.Decimal] = () => HandleCommaInput();
             _keyActions[Keys.Escape] = () => HandleClearInput();
             _keyActions[Keys.Back] = () => HandleBackspaceInput();
+            _keyActions[Keys.Add] = () => HandleOperatorInput("+");
+            _keyActions[Keys.Subtract] = () => HandleOperatorInput("-");
+            _keyActions[Keys.Multiply] = () => HandleOperatorInput("*");
+            _keyActions[Keys.Divide] = () => HandleOperatorInput("/");
+            _keyActions[Keys.Enter] = () => HandleEqualClick();
         }
 
         private void SetupNumberButtonClicks()
@@ -63,6 +79,23 @@ namespace Calculator.WinForms
             btnSeven.MouseDown += (s, e) => HandleDigitInput("7");
             btnEight.MouseDown += (s, e) => HandleDigitInput("8");
             btnNine.MouseDown += (s, e) => HandleDigitInput("9");
+        }
+
+        private void SetupOperatorButtons()
+        {
+            btnAddition.MouseDown += (s, e) => HandleOperatorInput("+");
+            btnSubtraction.MouseDown += (s, e) => HandleOperatorInput("-");
+            btnMultiplication.MouseDown += (s, e) => HandleOperatorInput("*");
+            btnDivision.MouseDown += (s, e) => HandleOperatorInput("÷");
+        }
+
+        private void SetupUnaryOperatorButtons()
+        {
+            btnSquareRoot.MouseDown += (s, e) => HandleUnaryOperator("√");
+            btnSquare.MouseDown += (s, e) => HandleBinaryExponentiation();
+            btnReciprocal.MouseDown += (s, e) => HandleUnaryOperator("1/x");
+            BtnPercent.MouseDown += (s, e) => HandleUnaryOperator("%");
+            btnPlusMinus.MouseDown += (s, e) => HandleSignToggle();
         }
 
         private void HandleDigitInput(string digit)
@@ -120,7 +153,11 @@ namespace Calculator.WinForms
         private void HandleClearInput()
         {
             txtResult.Text = "0";
+            txtLeftNumber.Text = "";
+            lblOperator.Text = "";
             _isNewEntry = true;
+            _currentOperator = string.Empty;
+            _calculationState.Reset();
             AdjustFontSize();
         }
 
@@ -192,6 +229,195 @@ namespace Calculator.WinForms
             {
                 action.Invoke();
                 e.Handled = true;
+            }
+            else
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void HandleOperatorInput(string operatorSymbol)
+        {
+            string displaySymbol = operatorSymbol == "/" ? "÷" : operatorSymbol;
+
+            if (string.IsNullOrEmpty(_currentOperator))
+            {
+                _calculationState.LeftOperand = GetDisplayValue();
+                _calculationState.HasLeftOperand = true;
+                _currentOperator = operatorSymbol;
+                _calculationState.Operator = operatorSymbol;
+                _calculationState.HasOperator = true;
+
+                txtLeftNumber.Text = txtResult.Text;
+                lblOperator.Text = displaySymbol;
+                txtResult.Text = "0";
+                _isNewEntry = true;
+            }
+            else if (!_calculationState.HasRightOperand)
+            {
+                _calculationState.RightOperand = GetDisplayValue();
+                _calculationState.HasRightOperand = true;
+
+                try
+                {
+                    decimal result = _calculationService.Execute(_calculationState);
+
+                    _calculationState.Reset();
+                    _calculationState.LeftOperand = result;
+                    _calculationState.HasLeftOperand = true;
+                    _currentOperator = operatorSymbol;
+                    _calculationState.Operator = operatorSymbol;
+                    _calculationState.HasOperator = true;
+
+                    txtLeftNumber.Text = FormatNumberForDisplay(result);
+                    lblOperator.Text = displaySymbol;
+                    txtResult.Text = "0";
+                    _isNewEntry = true;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Erro: {ex.Message}", "Operação Inválida");
+                    ResetCalculationState();
+                }
+            }
+        }
+
+        private string FormatNumberForDisplay(decimal value)
+        {
+            string text = value.ToString(CultureInfo.CurrentCulture);
+            txtResult.Text = text;
+            FormatNumberWithThousandsSeparator();
+            return txtResult.Text;
+        }
+
+        private void HandleEqualClick()
+        {
+            if (string.IsNullOrEmpty(_currentOperator) || !_calculationState.HasLeftOperand)
+                return;
+
+            _calculationState.RightOperand = GetDisplayValue();
+            _calculationState.HasRightOperand = true;
+
+            try
+            {
+                if (_calculationState.IsComplete)
+                {
+                    decimal result = _calculationService.Execute(_calculationState);
+                    DisplayResult(result);
+
+                    txtLeftNumber.Text = "";
+                    lblOperator.Text = "";
+                    _currentOperator = string.Empty;
+
+                    ResetCalculationState();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro: {ex.Message}", "Operação Inválida");
+                HandleClearInput();
+            }
+        }
+
+        private decimal GetDisplayValue()
+        {
+            string text = txtResult.Text.Replace(".", "").Replace(",", "");
+            var decSep = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+
+            if (txtResult.Text.Contains(decSep))
+            {
+                var parts = txtResult.Text.Split(decSep[0]);
+                text = string.Concat(parts[0].Replace(".", ""), decSep, parts.Length > 1 ? parts[1] : "0");
+            }
+
+            return decimal.Parse(text, CultureInfo.CurrentCulture);
+        }
+
+        private void DisplayResult(decimal value)
+        {
+            txtResult.Text = value.ToString(CultureInfo.CurrentCulture);
+            FormatNumberWithThousandsSeparator();
+            AdjustFontSize();
+        }
+
+        private void ResetCalculationState()
+        {
+            _calculationState = new CalculationState();
+            _isNewEntry = true;
+            _currentOperator = string.Empty;
+        }
+
+        private void HandleUnaryOperator(string operatorSymbol)
+        {
+            try
+            {
+                decimal currentValue = GetDisplayValue();
+                decimal result = _calculationService.ExecuteUnary(operatorSymbol, currentValue);
+                DisplayResult(result);
+                _isNewEntry = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro: {ex.Message}", "Operação Inválida");
+            }
+        }
+
+        private void HandleSignToggle()
+        {
+            try
+            {
+                decimal currentValue = GetDisplayValue();
+                decimal result = -currentValue;
+                DisplayResult(result);
+                _isNewEntry = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erro: {ex.Message}", "Operação Inválida");
+            }
+        }
+
+        private void HandleBinaryExponentiation()
+        {
+            if (string.IsNullOrEmpty(_currentOperator))
+            {
+                _calculationState.LeftOperand = GetDisplayValue();
+                _calculationState.HasLeftOperand = true;
+                _currentOperator = "^";
+                _calculationState.Operator = "^";
+                _calculationState.HasOperator = true;
+
+                txtLeftNumber.Text = txtResult.Text;
+                lblOperator.Text = "x²";
+                txtResult.Text = "0";
+                _isNewEntry = true;
+            }
+            else if (!_calculationState.HasRightOperand)
+            {
+                _calculationState.RightOperand = GetDisplayValue();
+                _calculationState.HasRightOperand = true;
+
+                try
+                {
+                    decimal result = _calculationService.Execute(_calculationState);
+
+                    _calculationState.Reset();
+                    _calculationState.LeftOperand = result;
+                    _calculationState.HasLeftOperand = true;
+                    _currentOperator = "^";
+                    _calculationState.Operator = "^";
+                    _calculationState.HasOperator = true;
+
+                    txtLeftNumber.Text = FormatNumberForDisplay(result);
+                    lblOperator.Text = "x²";
+                    txtResult.Text = "0";
+                    _isNewEntry = true;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Erro: {ex.Message}", "Operação Inválida");
+                    ResetCalculationState();
+                }
             }
         }
     }
