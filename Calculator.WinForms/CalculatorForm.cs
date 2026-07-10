@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace Calculator.WinForms
 {
@@ -6,6 +7,9 @@ namespace Calculator.WinForms
     {
         private bool _isNewEntry = true;
         private readonly Dictionary<Keys, Action> _keyActions = new();
+        private const float DefaultFontSize = 36f;
+        private const int MaxDigitsBeforeResize = 10;
+        private const int MaxCharacters = 16;
 
         public CalculatorForm()
         {
@@ -16,6 +20,8 @@ namespace Calculator.WinForms
             InitializeKeyMapping();
             SetupNumberButtonClicks();
             btnComma.Click += (s, e) => HandleCommaInput();
+            btnClear.Click += (s, e) => HandleClearInput();
+            btnBackSpace.Click += (s, e) => HandleBackspaceInput();
         }
 
         private void InitializeKeyMapping()
@@ -40,9 +46,9 @@ namespace Calculator.WinForms
             _keyActions[Keys.NumPad7] = () => HandleDigitInput("7");
             _keyActions[Keys.NumPad8] = () => HandleDigitInput("8");
             _keyActions[Keys.NumPad9] = () => HandleDigitInput("9");
-            _keyActions[Keys.Oemcomma] = () => HandleCommaInput();
             _keyActions[Keys.Decimal] = () => HandleCommaInput();
-            _keyActions[Keys.OemPeriod] = () => HandleCommaInput();
+            _keyActions[Keys.Escape] = () => HandleClearInput();
+            _keyActions[Keys.Back] = () => HandleBackspaceInput();
         }
 
         private void SetupNumberButtonClicks()
@@ -65,9 +71,20 @@ namespace Calculator.WinForms
             {
                 txtResult.Text = digit;
                 _isNewEntry = false;
-                return;
             }
-            txtResult.Text += digit;
+            else
+            {
+                if (GetDigitCount() < MaxCharacters)
+                {
+                    txtResult.Text += digit;
+                }
+                else
+                {
+                    return;
+                }
+            }
+            FormatNumberWithThousandsSeparator();
+            AdjustFontSize();
         }
 
         private void HandleCommaInput()
@@ -77,10 +94,96 @@ namespace Calculator.WinForms
             {
                 txtResult.Text = "0" + decSep;
                 _isNewEntry = false;
+            }
+            else if (!txtResult.Text.Contains(decSep))
+            {
+                txtResult.Text += decSep;
+            }
+            AdjustFontSize();
+        }
+
+        private void HandleBackspaceInput()
+        {
+            if (txtResult.Text.Length > 1)
+            {
+                txtResult.Text = txtResult.Text[..^1];
+            }
+            else
+            {
+                txtResult.Text = "0";
+                _isNewEntry = true;
+            }
+            FormatNumberWithThousandsSeparator();
+            AdjustFontSize();
+        }
+
+        private void HandleClearInput()
+        {
+            txtResult.Text = "0";
+            _isNewEntry = true;
+            AdjustFontSize();
+        }
+
+        private int GetDigitCount()
+        {
+            var decSep = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+            string cleaned = txtResult.Text.Replace(".", "").Replace(",", "");
+            return cleaned.Length;
+        }
+
+        private void FormatNumberWithThousandsSeparator()
+        {
+            var decSep = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+            string text = txtResult.Text;
+
+            if (!text.Contains(decSep))
+            {
+                string cleaned = text.Replace(".", "");
+                string formatted = FormatIntegerPart(cleaned);
+                txtResult.Text = formatted;
+            }
+            else
+            {
+                var parts = text.Split(decSep[0]);
+                string integerPart = parts[0].Replace(".", "");
+                string decimalPart = parts.Length > 1 ? parts[1] : "";
+
+                string formattedInteger = FormatIntegerPart(integerPart);
+                txtResult.Text = formattedInteger + decSep + decimalPart;
+            }
+        }
+
+        private string FormatIntegerPart(string value)
+        {
+            if (value.Length <= 3)
+                return value;
+
+            string reversed = new string(value.Reverse().ToArray());
+            string formatted = string.Empty;
+
+            for (int i = 0; i < reversed.Length; i++)
+            {
+                if (i > 0 && i % 3 == 0)
+                    formatted += ".";
+                formatted += reversed[i];
+            }
+
+            return new string(formatted.Reverse().ToArray());
+        }
+
+        private void AdjustFontSize()
+        {
+            int digitCount = GetDigitCount();
+
+            if (digitCount <= MaxDigitsBeforeResize)
+            {
+                txtResult.Font = new Font(txtResult.Font.FontFamily, DefaultFontSize, FontStyle.Bold);
                 return;
             }
-            if (!txtResult.Text.Contains(decSep))
-                txtResult.Text += decSep;
+
+            float scaleFactor = (float)MaxDigitsBeforeResize / digitCount;
+            float newSize = DefaultFontSize * scaleFactor;
+            txtResult.Font = new Font(txtResult.Font.FontFamily, newSize, FontStyle.Bold);
         }
 
         private void CalculatorForm_KeyDown(object? sender, KeyEventArgs e)
