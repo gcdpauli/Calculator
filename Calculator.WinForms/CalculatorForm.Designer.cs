@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             Calculator = new ReaLTaiizor.Forms.SpaceForm();
+            txtResult = new ReaLTaiizor.Controls.CrownTextBox();
             dungeonHeaderLabel6 = new ReaLTaiizor.Controls.DungeonHeaderLabel();
             dungeonHeaderLabel5 = new ReaLTaiizor.Controls.DungeonHeaderLabel();
             dungeonHeaderLabel4 = new ReaLTaiizor.Controls.DungeonHeaderLabel();
@@ -58,7 +59,6 @@
             btnBackSpace = new ReaLTaiizor.Controls.SpaceButton();
             btnClear = new ReaLTaiizor.Controls.SpaceButton();
             btnClearEntry = new ReaLTaiizor.Controls.SpaceButton();
-            lblResult = new ReaLTaiizor.Controls.BigLabel();
             BtnPercent = new ReaLTaiizor.Controls.SpaceButton();
             btnClose = new ReaLTaiizor.Controls.SpaceClose();
             Calculator.SuspendLayout();
@@ -68,6 +68,7 @@
             // 
             Calculator.BackColor = Color.FromArgb(42, 42, 42);
             Calculator.BorderStyle = FormBorderStyle.None;
+            Calculator.Controls.Add(txtResult);
             Calculator.Controls.Add(dungeonHeaderLabel6);
             Calculator.Controls.Add(dungeonHeaderLabel5);
             Calculator.Controls.Add(dungeonHeaderLabel4);
@@ -97,12 +98,11 @@
             Calculator.Controls.Add(btnBackSpace);
             Calculator.Controls.Add(btnClear);
             Calculator.Controls.Add(btnClearEntry);
-            Calculator.Controls.Add(lblResult);
             Calculator.Controls.Add(BtnPercent);
             Calculator.Controls.Add(btnClose);
             Calculator.Customization = "Kioq/yAgIP8qKir/Kioq/xwcHP/+/v7/Kysr/xkZGf8=";
             Calculator.Dock = DockStyle.Fill;
-            Calculator.Font = new Font("Verdana", 8F);
+            Calculator.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             Calculator.Image = null;
             Calculator.Location = new Point(0, 0);
             Calculator.MinimumSize = new Size(200, 25);
@@ -118,12 +118,33 @@
             Calculator.Text = "Calculator";
             Calculator.TransparencyKey = Color.Purple;
             Calculator.Transparent = false;
-            Calculator.Click += Calculator_Click;
+            // 
+            // txtResult
+            // 
+            txtResult.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            txtResult.BackColor = Color.FromArgb(42, 42, 42);
+            txtResult.BorderStyle = BorderStyle.None;
+            txtResult.Font = new Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            txtResult.ForeColor = Color.Gray;
+            txtResult.Location = new Point(1, 30);
+            txtResult.Margin = new Padding(0);
+            txtResult.MaxLength = 15;
+            txtResult.Multiline = false;
+            txtResult.Name = "txtResult";
+            txtResult.RightToLeft = RightToLeft.No;
+            txtResult.ScrollBars = ScrollBars.Horizontal;
+            txtResult.Size = new Size(323, 60);
+            txtResult.TabIndex = 0;
+            txtResult.TabStop = false;
+            txtResult.Text = "0";
+            txtResult.TextAlign = HorizontalAlignment.Right;
+            txtResult.WordWrap = false;
             // 
             // dungeonHeaderLabel6
             // 
             dungeonHeaderLabel6.AutoSize = true;
             dungeonHeaderLabel6.BackColor = Color.Transparent;
+            dungeonHeaderLabel6.Cursor = Cursors.Hand;
             dungeonHeaderLabel6.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             dungeonHeaderLabel6.ForeColor = Color.FromArgb(76, 76, 77);
             dungeonHeaderLabel6.Location = new Point(285, 138);
@@ -136,6 +157,7 @@
             // 
             dungeonHeaderLabel5.AutoSize = true;
             dungeonHeaderLabel5.BackColor = Color.Transparent;
+            dungeonHeaderLabel5.Cursor = Cursors.Hand;
             dungeonHeaderLabel5.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             dungeonHeaderLabel5.ForeColor = Color.FromArgb(76, 76, 77);
             dungeonHeaderLabel5.Location = new Point(230, 138);
@@ -148,6 +170,7 @@
             // 
             dungeonHeaderLabel4.AutoSize = true;
             dungeonHeaderLabel4.BackColor = Color.Transparent;
+            dungeonHeaderLabel4.Cursor = Cursors.Hand;
             dungeonHeaderLabel4.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             dungeonHeaderLabel4.ForeColor = Color.FromArgb(76, 76, 77);
             dungeonHeaderLabel4.Location = new Point(175, 138);
@@ -160,6 +183,7 @@
             // 
             dungeonHeaderLabel3.AutoSize = true;
             dungeonHeaderLabel3.BackColor = Color.Transparent;
+            dungeonHeaderLabel3.Cursor = Cursors.Hand;
             dungeonHeaderLabel3.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             dungeonHeaderLabel3.ForeColor = Color.FromArgb(76, 76, 77);
             dungeonHeaderLabel3.Location = new Point(120, 138);
@@ -172,6 +196,7 @@
             // 
             dungeonHeaderLabel2.AutoSize = true;
             dungeonHeaderLabel2.BackColor = Color.Transparent;
+            dungeonHeaderLabel2.Cursor = Cursors.Hand;
             dungeonHeaderLabel2.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             dungeonHeaderLabel2.ForeColor = Color.FromArgb(76, 76, 77);
             dungeonHeaderLabel2.Location = new Point(65, 138);
@@ -184,6 +209,7 @@
             // 
             dungeonHeaderLabel1.AutoSize = true;
             dungeonHeaderLabel1.BackColor = Color.Transparent;
+            dungeonHeaderLabel1.Cursor = Cursors.Hand;
             dungeonHeaderLabel1.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             dungeonHeaderLabel1.ForeColor = Color.FromArgb(76, 76, 77);
             dungeonHeaderLabel1.Location = new Point(10, 138);
@@ -514,20 +540,6 @@
             btnClearEntry.TextAlignment = HorizontalAlignment.Center;
             btnClearEntry.Transparent = false;
             // 
-            // lblResult
-            // 
-            lblResult.AutoSize = true;
-            lblResult.BackColor = Color.Transparent;
-            lblResult.Font = new Font("Segoe UI", 25F);
-            lblResult.ForeColor = Color.FromArgb(80, 80, 80);
-            lblResult.Location = new Point(281, 53);
-            lblResult.Name = "lblResult";
-            lblResult.RightToLeft = RightToLeft.Yes;
-            lblResult.Size = new Size(38, 46);
-            lblResult.TabIndex = 0;
-            lblResult.Text = "0";
-            lblResult.TextAlign = ContentAlignment.MiddleRight;
-            // 
             // BtnPercent
             // 
             BtnPercent.Customization = "Kioq/zIyMv8yMjL/Kioq/y8vL/8nJyf//v7+/yMjI/8qKir/";
@@ -588,7 +600,6 @@
         private ReaLTaiizor.Controls.SpaceButton btnFour;
         private ReaLTaiizor.Controls.SpaceButton btnSeven;
         private ReaLTaiizor.Controls.SpaceButton btnReciprocal;
-        private ReaLTaiizor.Controls.BigLabel lblResult;
         private ReaLTaiizor.Controls.SpaceButton btnEqual;
         private ReaLTaiizor.Controls.SpaceButton btnComma;
         private ReaLTaiizor.Controls.SpaceButton btnZero;
@@ -614,5 +625,6 @@
         private ReaLTaiizor.Controls.DungeonHeaderLabel dungeonHeaderLabel2;
         private ReaLTaiizor.Controls.DungeonHeaderLabel dungeonHeaderLabel1;
         private ReaLTaiizor.Controls.DungeonHeaderLabel dungeonHeaderLabel6;
+        private ReaLTaiizor.Controls.CrownTextBox txtResult;
     }
 }
