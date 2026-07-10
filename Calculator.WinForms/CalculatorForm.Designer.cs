@@ -124,7 +124,7 @@
             txtResult.BackColor = Color.FromArgb(42, 42, 42);
             txtResult.BorderStyle = BorderStyle.None;
             txtResult.Font = new Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            txtResult.ForeColor = Color.FromArgb(220, 220, 220);
+            txtResult.ForeColor = Color.Gray;
             txtResult.Location = new Point(3, 30);
             txtResult.Multiline = true;
             txtResult.Name = "txtResult";
@@ -132,7 +132,7 @@
             txtResult.Size = new Size(319, 66);
             txtResult.TabIndex = 0;
             txtResult.TabStop = false;
-            txtResult.Text = "0";
+            txtResult.Text = "1234567890";
             // 
             // dungeonHeaderLabel6
             // 
